@@ -58,11 +58,8 @@ namespace Lokad.EventStore.Cache
                 }
 
                 _cacheFull = cacheFullBuilder.ToArray();
-                _cacheByKey =
-                    new ConcurrentDictionary<string, DataWithKey[]>(
-                        streamPointerBuilder.Select(
-                                                    p =>
-                                                        new KeyValuePair<string, DataWithKey[]>(p.Key, p.Value.ToArray())));
+                var pairs = streamPointerBuilder.Select(p => new KeyValuePair<string, DataWithKey[]>(p.Key, p.Value.ToArray()));
+                _cacheByKey = new ConcurrentDictionary<string, DataWithKey[]>(pairs);
                 StoreVersion = newStoreVersion;
             }
             finally
