@@ -6,9 +6,10 @@
 #endregion
 
 using System;
+using Lokad.EventStore.Cache;
 using NUnit.Framework;
 
-namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
+namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache_scenarios
 {
     [TestFixture]
     public sealed class when_reloading_all : fixture_with_cache_helpers
@@ -16,7 +17,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_reloaded_cache()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
             cache.LoadHistory(CreateFrames("s1", "s2"));
 
             Assert.Throws<InvalidOperationException>(() => cache.LoadHistory(CreateFrames("s1")));
@@ -25,14 +26,14 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_empty_cache()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
             cache.Clear(() => { });
         }
 
         [Test]
         public void given_cleared_cache()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
             cache.LoadHistory(CreateFrames("s1", "s2"));
             cache.Clear(() => { });
             cache.LoadHistory(CreateFrames("s1"));

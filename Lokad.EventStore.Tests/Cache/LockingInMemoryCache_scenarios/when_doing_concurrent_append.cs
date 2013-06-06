@@ -6,9 +6,10 @@
 #endregion
 
 using System.IO;
+using Lokad.EventStore.Cache;
 using NUnit.Framework;
 
-namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
+namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache_scenarios
 {
     [TestFixture]
     public sealed class when_doing_concurrent_append : fixture_with_cache_helpers
@@ -16,7 +17,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_empty_cache_and_valid_commit_function()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
 
             long? commitStoreVersion = null;
             long? commitStreamVersion = null;
@@ -43,15 +44,16 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_reloaded_cache_and_commit_function_that_fails()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
 
             cache.LoadHistory(CreateFrames("stream", "otherStream"));
 
-            Assert.Throws<FileNotFoundException>(
-                                                 () =>
-                                                     cache.ConcurrentAppend("stream", new byte[1],
-                                                         (version, storeVersion) =>
-                                                             { throw new FileNotFoundException(); }));
+            Assert.Throws<FileNotFoundException>(() => cache
+                .ConcurrentAppend("stream", new byte[1],
+                    (version, storeVersion) =>
+                        {
+                            throw new FileNotFoundException();
+                        }));
 
             Assert.AreEqual(2, cache.StoreVersion);
         }
@@ -59,7 +61,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_filled_cache_and_concurrent_append_with_non_specified_version_expectation()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
 
             cache.LoadHistory(CreateFrames("stream", "otherStream"));
 
@@ -72,7 +74,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         public void given_filled_cache_and_concurrent_append_with_valid_version_expectation()
         {
             // GIVEN
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
 
             cache.LoadHistory(CreateFrames("stream", "otherStream"));
             cache.ConcurrentAppend("stream", GetEventBytes(4), (version, storeVersion) => { });
@@ -98,17 +100,16 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_reloaded_cache_and_concurrent_append_with_invalid_expected_version()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
 
             cache.LoadHistory(CreateFrames("stream", "otherStream"));
 
             bool commitWasCalled = false;
 
-            Assert.Throws<AppendOnlyStoreConcurrencyException>(
-                                                               () =>
-                                                                   cache.ConcurrentAppend("stream", new byte[1],
-                                                                       (streamVersion, storeVersion) =>
-                                                                           commitWasCalled = true, 2));
+            Assert.Throws<AppendOnlyStoreConcurrencyException>(() => cache.
+                ConcurrentAppend("stream", new byte[1],
+                    (streamVersion, storeVersion) =>
+                        commitWasCalled = true, 2));
 
             Assert.IsFalse(commitWasCalled, "commit should not be called");
         }
@@ -116,7 +117,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_empty_cache_and_matching_version_expectation()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
             long? commitStoreVersion = null;
             long? commitStreamVersion = null;
 
@@ -132,7 +133,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_reloaded_cache_and_matching_stream_version()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
 
             cache.LoadHistory(CreateFrames("stream", "otherStream"));
 

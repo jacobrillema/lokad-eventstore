@@ -6,19 +6,20 @@
 #endregion
 
 using System;
+using Lokad.EventStore.Cache;
 using NUnit.Framework;
 
-namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
+namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache_scenarios
 {
     [TestFixture]
     public sealed class when_reading_all_given_filled_cache : fixture_with_cache_helpers
     {
-        EventStore.Cache.LockingInMemoryCache Cache;
+        LockingInMemoryCache Cache;
 
         [SetUp]
         public void Setup()
         {
-            Cache = new EventStore.Cache.LockingInMemoryCache();
+            Cache = new LockingInMemoryCache();
 
             Cache.LoadHistory(CreateFrames("stream1", "stream2"));
             Cache.ConcurrentAppend("stream1", GetEventBytes(3), (version, storeVersion) => { });

@@ -42,15 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\LockingInMemoryCache\fixture_with_cache_helpers.cs" />
-    <Compile Include="Cache\LockingInMemoryCache\when_checking_store_version.cs" />
-    <Compile Include="Cache\LockingInMemoryCache\when_clearing_cache.cs" />
-    <Compile Include="Cache\LockingInMemoryCache\when_doing_concurrent_append.cs" />
-    <Compile Include="Cache\LockingInMemoryCache\when_reading_all_given_empty_cache.cs" />
-    <Compile Include="Cache\LockingInMemoryCache\when_reading_all_given_filled_cache.cs" />
-    <Compile Include="Cache\LockingInMemoryCache\when_reading_stream_from_empty_cache.cs" />
-    <Compile Include="Cache\LockingInMemoryCache\when_reading_stream_from_loaded_cache.cs" />
-    <Compile Include="Cache\LockingInMemoryCache\when_reloading_all.cs" />
+    <Compile Include="Cache\LockingInMemoryCache_scenarios\fixture_with_cache_helpers.cs" />
+    <Compile Include="Cache\LockingInMemoryCache_scenarios\when_checking_store_version.cs" />
+    <Compile Include="Cache\LockingInMemoryCache_scenarios\when_clearing_cache.cs" />
+    <Compile Include="Cache\LockingInMemoryCache_scenarios\when_doing_concurrent_append.cs" />
+    <Compile Include="Cache\LockingInMemoryCache_scenarios\when_reading_all_given_empty_cache.cs" />
+    <Compile Include="Cache\LockingInMemoryCache_scenarios\when_reading_all_given_filled_cache.cs" />
+    <Compile Include="Cache\LockingInMemoryCache_scenarios\when_reading_stream_from_empty_cache.cs" />
+    <Compile Include="Cache\LockingInMemoryCache_scenarios\when_reading_stream_from_loaded_cache.cs" />
+    <Compile Include="Cache\LockingInMemoryCache_scenarios\when_reloading_all.cs" />
     <Compile Include="Core\AppendOnlyStreamTest.cs" />
     <Compile Include="FileAppendOnlyStoreTest.cs" />
     <Compile Include="MemoryAppendOnlyStoreTest.cs" />

@@ -6,9 +6,10 @@
 #endregion
 
 using System.IO;
+using Lokad.EventStore.Cache;
 using NUnit.Framework;
 
-namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
+namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache_scenarios
 {
     [TestFixture]
     public sealed class when_clearing_cache : fixture_with_cache_helpers
@@ -16,7 +17,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_empty_cache()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
             cache.Clear(() => { });
             Assert.AreEqual(0, cache.StoreVersion);
         }
@@ -24,7 +25,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_reloaded_cache()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
             cache.LoadHistory(CreateFrames("stream2"));
             cache.Clear(() => { });
 
@@ -35,7 +36,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_appended_cache()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
 
             cache.ConcurrentAppend("stream1", new byte[1], (version, storeVersion) => { });
 
@@ -47,7 +48,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_filled_cache_and_failing_commit_function()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
 
             cache.ConcurrentAppend("stream1", new byte[1], (version, storeVersion) => { });
 

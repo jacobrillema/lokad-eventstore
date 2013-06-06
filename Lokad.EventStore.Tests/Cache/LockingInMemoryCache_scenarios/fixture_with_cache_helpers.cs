@@ -12,7 +12,7 @@ using System.Text;
 using Lokad.EventStore.Core;
 using NUnit.Framework;
 
-namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
+namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache_scenarios
 {
     public abstract class fixture_with_cache_helpers
     {

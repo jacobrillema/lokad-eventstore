@@ -6,12 +6,13 @@
 #endregion
 
 using System.Linq;
+using Lokad.EventStore.Cache;
 using Lokad.EventStore.Core;
 using NUnit.Framework;
 
 // ReSharper disable InconsistentNaming 
 
-namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
+namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache_scenarios
 {
     [TestFixture]
     public class when_checking_store_version
@@ -19,13 +20,13 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_empty_cache()
         {
-            Assert.AreEqual(0, new EventStore.Cache.LockingInMemoryCache().StoreVersion);
+            Assert.AreEqual(0, new LockingInMemoryCache().StoreVersion);
         }
 
         [Test]
         public void given_cache_with_one_appended_record()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
             cache.ConcurrentAppend("Stream", new byte[0], (version, storeVersion) => { }, -1);
 
             Assert.AreEqual(1, cache.StoreVersion);
@@ -34,7 +35,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_empty_reload()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
             cache.LoadHistory(Enumerable.Empty<StorageFrameDecoded>());
             Assert.AreEqual(0, cache.StoreVersion);
         }
@@ -42,7 +43,7 @@ namespace Lokad.EventStore.Tests.Cache.LockingInMemoryCache
         [Test]
         public void given_non_empty_reload()
         {
-            var cache = new EventStore.Cache.LockingInMemoryCache();
+            var cache = new LockingInMemoryCache();
             cache.LoadHistory(new[]
                 {
                     new StorageFrameDecoded(new byte[1], "test", 0),
