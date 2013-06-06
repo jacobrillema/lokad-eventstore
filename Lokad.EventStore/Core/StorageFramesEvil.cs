@@ -9,7 +9,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -126,51 +125,6 @@ namespace Lokad.EventStore.Core
                 // Auto-clean?
                 return false;
             }
-        }
-    }
-
-    /// <summary>
-    /// Is thrown when there is a big problem with reading storage frame
-    /// </summary>
-    [Serializable]
-    public class StorageFrameException : Exception
-    {
-        public StorageFrameException(string message) : base(message) {}
-
-        protected StorageFrameException(
-            SerializationInfo info,
-            StreamingContext context)
-            : base(info, context) {}
-    }
-
-    public struct StorageFrameEncoded
-    {
-        public readonly byte[] Data;
-        public readonly byte[] Hash;
-
-        public StorageFrameEncoded(byte[] data, byte[] hash)
-        {
-            Data = data;
-            Hash = hash;
-        }
-    }
-
-    public struct StorageFrameDecoded
-    {
-        public readonly byte[] Bytes;
-        public readonly string Name;
-        public readonly long Stamp;
-
-        public bool IsEmpty
-        {
-            get { return Bytes.Length == 0 && Stamp == 0 && string.IsNullOrEmpty(Name); }
-        }
-
-        public StorageFrameDecoded(byte[] bytes, string name, long stamp)
-        {
-            Bytes = bytes;
-            Name = name;
-            Stamp = stamp;
         }
     }
 }
