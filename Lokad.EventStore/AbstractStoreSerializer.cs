@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Lokad.EventStore
 {
-    public abstract class AbstractMessageSerializer : IMessageSerializer
+    public abstract class AbstractStoreSerializer : IStoreSerializer
     {
         public ICollection<Type> KnownTypes { get; private set; }
         readonly IDictionary<Type, Formatter> _formattersByType = new Dictionary<Type, Formatter>();
@@ -28,7 +28,7 @@ namespace Lokad.EventStore
             }
         }
 
-        protected AbstractMessageSerializer(ICollection<Type> knownTypes)
+        protected AbstractStoreSerializer(ICollection<Type> knownTypes)
         {
             KnownTypes = knownTypes;
             Build();

@@ -7,7 +7,7 @@ namespace Lokad.EventStore
     /// <summary>
     /// Joins data serializer and contract mapper
     /// </summary>
-    public interface IMessageSerializer
+    public interface IStoreSerializer
     {
         /// <summary>
         /// Writes the message to a stream.

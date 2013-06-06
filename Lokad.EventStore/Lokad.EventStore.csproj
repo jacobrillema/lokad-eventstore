@@ -34,7 +34,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractMessageSerializer.cs" />
+    <Compile Include="AbstractStoreSerializer.cs" />
     <Compile Include="AppendOnlyStoreConcurrencyException.cs" />
     <Compile Include="Core\AppendOnlyStream.cs" />
     <Compile Include="Core\AppendWriterDelegate.cs" />
@@ -43,13 +43,14 @@
     <Compile Include="Core\StorageFrameException.cs" />
     <Compile Include="Core\StorageFramesEvil.cs" />
     <Compile Include="DataWithKey.cs" />
+    <Compile Include="EventStore.cs" />
     <Compile Include="Files\FileAppendOnlyStore.cs" />
     <Compile Include="Cache\LockingInMemoryCache.cs" />
     <Compile Include="IAppendOnlyStore.cs" />
-    <Compile Include="IMessageSerializer.cs" />
+    <Compile Include="IStoreSerializer.cs" />
     <Compile Include="Memory\MemoryAppendOnlyStore.cs" />
     <Compile Include="MessageAttribute.cs" />
-    <Compile Include="MessageStore.cs" />
+    <Compile Include="SerializingAppendOnlyStore.cs" />
     <Compile Include="StoreRecord.cs" />
   </ItemGroup>
   <ItemGroup>

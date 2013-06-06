@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Lokad.EventStore
@@ -7,10 +8,10 @@ namespace Lokad.EventStore
     /// Helper class that knows how to store arbitrary messages in append-only store
     /// (including envelopes, audit batches etc)
     /// </summary>
-    public class MessageStore
+    public class SerializingAppendOnlyStore : IDisposable
     {
         readonly IAppendOnlyStore _appendOnlyStore;
-        readonly IMessageSerializer _serializer;
+        readonly IStoreSerializer _serializer;
 
         public void Dispose()
         {
@@ -18,7 +19,7 @@ namespace Lokad.EventStore
             _appendOnlyStore.Dispose();
         }
 
-        public MessageStore(IAppendOnlyStore appendOnlyStore, IMessageSerializer serializer)
+        public SerializingAppendOnlyStore(IAppendOnlyStore appendOnlyStore, IStoreSerializer serializer)
         {
             _appendOnlyStore = appendOnlyStore;
             _serializer = serializer;
